@@ -1,0 +1,12 @@
+
+span.word {
+	border:  1px solid black;
+	background: orange;
+	padding: 2px;
+	display:  inline-block;
+	margin: 4px;
+}
+
+input#pos1-is, input#pos2-is, input#pos3-is, input#pos4-is, input#pos5-is {
+	width: 1em;
+}
