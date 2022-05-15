@@ -1,6 +1,16 @@
 
 var maxDisplay = 100
 
+Array.prototype.removeByValue = function (val) {
+	for (var i = 0; i < this.length; i++) {
+  		if (this[i] === val) {
+     		this.splice(i, 1);
+      		i--;
+    	}
+  	}
+	return this;
+}
+
 function recompute() {
 
 	// sanity check! we can't exclude what needs to be included
@@ -40,23 +50,97 @@ function recompute() {
 	}
 
 	var reducedByPosition = [];
+	var byPosRegexChars = ['.','.','.','.','.'];
+	if (pos1_is.length > 0) {
+		byPosRegexChars[0] = pos1_is;
+	}
+	if (pos2_is.length > 0) {
+		byPosRegexChars[1] = pos2_is;
+	}
+	if (pos3_is.length > 0) {
+		byPosRegexChars[2] = pos3_is;
+	}
+	if (pos4_is.length > 0) {
+		byPosRegexChars[3] = pos4_is;
+	}
+	if (pos5_is.length > 0) {
+		byPosRegexChars[4] = pos5_is;
+	}
+	let byPosRegex = new RegExp(byPosRegexChars.join(''))
 	words.forEach(function(word, idx) {
-		if (pos1_is.length > 0 && word.charAt(0) == pos1_is) {
-			reducedByPosition.push(word)
-		} else if (pos2_is.length > 0 && word.charAt(1) == pos2_is) {
-			reducedByPosition.push(word)
-		} else if (pos3_is.length > 0 && word.charAt(2) == pos3_is) {
-			reducedByPosition.push(word)
-		} else if (pos4_is.length > 0 && word.charAt(3) == pos4_is) {
-			reducedByPosition.push(word)
-		} else if (pos5_is.length > 0 && word.charAt(4) == pos5_is) {
+		if (word.match(byPosRegex)) {
 			reducedByPosition.push(word)
 		}
 	})
-	console.log(reducedByPosition)
+	// console.log(reducedByPosition)
 
-	let display = reducedByPosition.slice(0,maxDisplay)
+	// dump anything we need to exclude
+	var reducedByExclusion = []
+	if (exclude.length > 0) {
+		let excludeArr = exclude.split('').sort()
+		let excludeRegex = new RegExp('[' + excludeArr.join('') + ']')
+		reducedByPosition.forEach(function(word, idx) {
+			if (word.match(excludeRegex) == null) {
+				reducedByExclusion.push(word)
+			}
+		})
+	} else {
+		reducedByExclusion = reducedByPosition
+	}
+
+	// now exclude by position, as needed
+	for (var i = 1; i <= 5; i++) {
+		if ($("#pos"+i+"-exclude").prop("disabled")) {
+			console.log("Not excluding position " + i)
+			continue
+		}
+		let contents = $("#pos" + i + "-exclude").val()
+		if (contents == null || contents.length == 0) {
+			console.log("Nothing to exclude for position " + i + ", skipping...");
+			continue
+		}
+		// let excludeRegex = new RegExp('[' + contents.split('').sort().join('') + ']')
+		var toExclude = []
+		reducedByExclusion.forEach(function(word, idx) {
+			// if (word.match(excludeRegex)) {
+			if (contents.includes(word.charAt(i-1))) {
+				toExclude.push(word)
+			}
+		})
+		toExclude.forEach(function(word, idx) {
+			reducedByExclusion.removeByValue(word)
+		})
+	}
+
+	// dump anything not including what we have to include
+	var reducedByInclusion = []
+	if (include.length > 0) {
+		let includeArr = include.split('')
+		reducedByExclusion.forEach(function(word, idx) {
+			var include = true
+			for (var i = 0; i < includeArr.length; i++) {
+				if (!word.includes(includeArr[i])) {
+					include = false
+					break
+				}
+			}
+			if (include) {
+				reducedByInclusion.push(word)
+			}
+		})
+	} else {
+		reducedByInclusion = reducedByExclusion
+	}
+
+	console.log(reducedByInclusion)
+
+	let display = reducedByInclusion.slice(0,maxDisplay)
 	show(display)
+}
+
+function changeEnablement(num) {
+	let contents = $("#pos" + num +"-is").val()
+	$("#pos" + num + "-exclude").prop("disabled", contents != null && contents.length > 0)
 }
 
 function show(words) {
