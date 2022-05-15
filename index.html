@@ -10,50 +10,53 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<div id="main">
+		<form>
+			<p>
+				<label for="pos1-exclude">Position 1 Does Not Contain:</label>
+				<input id="pos1-exclude" name="pos1-exclude">
+				<label for="pos1-is">Or Is:</label>
+				<input id="pos1-is" name="pos1-is" maxlength="1" onchange="changeEnablement(1)">
+			</p>
+			<p>
+				<label for="pos2-exclude">Position 2 Does Not Contain:</label>
+				<input id="pos2-exclude" name="pos2-exclude">
+				<label for="pos2-is">Or Is:</label>
+				<input id="pos2-is" name="pos2-is" maxlength="1" onchange="changeEnablement(2)">
+			</p>
+			<p>
+				<label for="pos3-exclude">Position 3 Does Not Contain:</label>
+				<input id="pos3-exclude" name="pos3-exclude">
+				<label for="pos3-is">Or Is:</label>
+				<input id="pos3-is" name="pos3-is" maxlength="1" onchange="changeEnablement(3)">
+			</p>
+			<p>
+				<label for="pos4-exclude">Position 4 Does Not Contain:</label>
+				<input id="pos4-exclude" name="pos4-exclude">
+				<label for="pos4-is">Or Is:</label>
+				<input id="pos4-is" name="pos4-is" maxlength="1" onchange="changeEnablement(4)">
+			</p>
+			<p>
+				<label for="pos5-exclude">Position 5 Does Not Contain:</label>
+				<input id="pos5-exclude" name="pos5-exclude">
+				<label for="pos5-is">Or Is:</label>
+				<input id="pos5-is" name="pos5-is" maxlength="1" onchange="changeEnablement(5)">
+			</p>
+			<p>
+				<p>
+					<label for="exclude">Exclude:</label><input id="exclude" name="exclude">
+				</p>
+				<p>
+					<label for="include">Include:</label><input id="include" name="include">
+				</p>
+			</p>
 
-	<form>
+		</form>
+		<button class="button-3" id="compute" onclick="recompute()">Recompute</button>
 		<p>
-			<label for="exclude">Exclude:</label>
-			<input id="exclude" name="exclude">
-			<label for="include">Include:</label>
-			<input id="include" name="include">
+			<h3>Possible Words</h3>
+			<p id="possible"></p>
 		</p>
-		<p>
-			<label for="pos1-exclude">Position 1 Does Not Contain:</label>
-			<input id="pos1-exclude" name="pos1-exclude">
-			<label for="pos1-is">Or Is:</label>
-			<input id="pos1-is" name="pos1-is" maxlength="1" onchange="changeEnablement(1)">
-		</p>
-		<p>
-			<label for="pos2-exclude">Position 2 Does Not Contain:</label>
-			<input id="pos2-exclude" name="pos2-exclude">
-			<label for="pos2-is">Or Is:</label>
-			<input id="pos2-is" name="pos2-is" maxlength="1" onchange="changeEnablement(2)">
-		</p>
-		<p>
-			<label for="pos3-exclude">Position 3 Does Not Contain:</label>
-			<input id="pos3-exclude" name="pos3-exclude">
-			<label for="pos3-is">Or Is:</label>
-			<input id="pos3-is" name="pos3-is" maxlength="1" onchange="changeEnablement(3)">
-		</p>
-		<p>
-			<label for="pos4-exclude">Position 4 Does Not Contain:</label>
-			<input id="pos4-exclude" name="pos4-exclude">
-			<label for="pos4-is">Or Is:</label>
-			<input id="pos4-is" name="pos4-is" maxlength="1" onchange="changeEnablement(4)">
-		</p>
-		<p>
-			<label for="pos5-exclude">Position 5 Does Not Contain:</label>
-			<input id="pos5-exclude" name="pos5-exclude">
-			<label for="pos5-is">Or Is:</label>
-			<input id="pos5-is" name="pos5-is" maxlength="1" onchange="changeEnablement(5)">
-		</p>
-
-	</form>
-	<button id="compute" onclick="recompute()">Recompute</button>
-	<p>
-		<h3>Possible Words</h3>
-		<p id="possible"></p>
-	</p>
+	</div>
 </body>
 </html>
